@@ -3,7 +3,7 @@ from BeautifulSoup import BeautifulSoup
 import json
 import requests
 
-esUrl = "http://localhost:9200"
+esUrl = "http://elasticsearch:9200"
 
 def title(row):
     return row.contents[1].string.replace("T:", "").strip()
@@ -22,7 +22,7 @@ def year(row):
 def director(row):
     if not row.contents[3].string:
       return ""
-  
+
     return row.contents[3].string.replace("D:", "").strip()
 
 def producers(row):
@@ -34,7 +34,7 @@ def studio(row):
     if not row.contents[5].string:
         return ""
     return row.contents[5].string.replace("S:", "").replace("SU:", "").replace("ST:","").strip()
-      
+
 def process(row):
     if not row.contents[6].string:
         return ""
@@ -58,7 +58,7 @@ def location(row):
 def rowToMovie(row):
     if bad(row):
         return None
-    
+
     return {
         'id': id(row),
         'title': title(row),
@@ -70,7 +70,7 @@ def rowToMovie(row):
         'category': category(row),
         'awards': awards(row),
         'location': location(row)
-        
+
     }
 
 def movieToBulk(movie):
@@ -83,12 +83,12 @@ def movieToBulk(movie):
 
 def load(bulk):
   headers = { 'content-type': 'application/x-ndjson' }
-  return requests.post(esUrl + "/_bulk", data=bulk, headers=headers)    
-        
+  return requests.post(esUrl + "/_bulk", data=bulk, headers=headers)
+
 page = urllib2.urlopen("https://archive.ics.uci.edu/ml/machine-learning-databases/movies-mld/data/main.html")
 soup = BeautifulSoup(page)
 accumulator = []
-    
+
 for row in soup.findAll('tr'):
     movie = rowToMovie(row)
     if movie:

@@ -11,13 +11,9 @@ Docker and Python 2.7 with pip or easy_istall and internet access.
 
 0. Get code. ```git clone git@github.com:sulmanen/es-movies.git```
 1. Fire up elasticsearch. ```docker-compose up```
-2. Verify. ```curl http://localhost:9200```
-3. Deps. ```pip install requests && 
-      pip install BeautifulSoup```
-4. Create index. ```./et index create 0```
-5. Create alias. ```./et index alias movies 0```
-6. Verify alias. ```curl http://localhost:9200/_aliases```
-7. Load data. ```python2.7 import-movies.py``` 
+2. Open shell in client container: ```docker-compose run run client /bin/bash```
+3. Load data. ```./init.sh```
+4. Profit
 
 ## Excercises
 We are using [UCI Movies Dataset](https://archive.ics.uci.edu/ml/datasets/Movie) of over 10k films. The titles are from late 1800's to 1999.
@@ -25,7 +21,7 @@ We are using [UCI Movies Dataset](https://archive.ics.uci.edu/ml/datasets/Movie)
 ### [URI Search](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-uri-request.html)
 Find all the Academy Awards winners in the database. _AA_ stands for winning an Academy Award.
 
-Find the film _Elmer Gantry_ in the raw data. Did it win an Academy Award? 
+Find the film _Elmer Gantry_ in the raw data. Did it win an Academy Award?
 
 ### [Boolean Query](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html)
 

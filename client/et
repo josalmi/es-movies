@@ -4,15 +4,15 @@ set -euo pipefail
 if [ $# -ge 2 ]; then
   action=$1
 
-  
+
   if [ "$action" == "index" ]; then
       command=$2
     if [ "$command" == create ]; then
       index_version=${3:-0}
       base_dir=${4:-index}
-      es_url=${5:-http://localhost:9200}
+      es_url=${5:-http://elasticsearch:9200}
 
-      
+
       echo "PUT $es_url/$index_version"
       curl -X PUT -H "Content-Type: application/json" -d "@$base_dir/$index_version/index.json" "$es_url/$index_version/?pretty"
 
@@ -22,7 +22,7 @@ if [ $# -ge 2 ]; then
 
     if [ "$command" == "delete" ]; then
       index_version=${3:-0}
-      es_url=${4:-http://localhost:9200}
+      es_url=${4:-http://elasticsearch:9200}
 
       echo "DELETE $es_url/$index_version"
       curl -X DELETE "$es_url/$index_version/?pretty"
@@ -32,7 +32,7 @@ if [ $# -ge 2 ]; then
       alias=$3
       add=$4
       remove=${5-}
-      es_url=${6:-http://localhost:9200}
+      es_url=${6:-http://elasticsearch:9200}
 
       if [ -z ${remove} ]; then
         payload="
@@ -41,10 +41,10 @@ if [ $# -ge 2 ]; then
                 { \"add\": {
                     \"alias\": \"$alias\",
                     \"index\": \"$add\"
-                }}               
+                }}
             ]
         }
-    "  
+    "
       else
         payload="
         {
@@ -56,7 +56,7 @@ if [ $# -ge 2 ]; then
                 { \"remove\": {
                     \"alias\": \"$alias\",
                     \"index\": \"$remove\"
-                }}               
+                }}
             ]
         }
     "
@@ -68,8 +68,8 @@ if [ $# -ge 2 ]; then
   if [ "$action" == "reindex" ]; then
       from=$2
       to=$3
-      es_url=${4:-http://localhost:9200}
-      
+      es_url=${4:-http://elasticsearch:9200}
+
       curl -X POST "$es_url/_reindex?pretty" -H "Content-type: application/json" -d "{
         \"source\": {\"index\": \"$from\"},
         \"dest\": {\"index\": \"$to\"}
