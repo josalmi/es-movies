@@ -9,9 +9,9 @@ Elasticsearch is a good fulltext search engine.
 ## Prerequisites
 Docker and Python 2.7 with pip or easy_istall and internet access.
 
-0. Get code. ```git clone git@github.com:sulmanen/es-movies.git```
+0. Get code. ```git clone git@github.com:josalmi/es-movies.git```
 1. Fire up elasticsearch. ```docker-compose up```
-2. Open shell in client container: ```docker-compose run run client /bin/bash```
+2. Open shell in client container: ```docker-compose run client /bin/bash```
 3. Load data. ```./init.sh```
 4. Profit
 
